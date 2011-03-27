@@ -5,6 +5,7 @@ import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.events.Event;
 import flash.geom.Vector3D;
+import flash.text.TextField;
 import clothx.physics.ParticleSystem;
 import clothx.physics.Particle;
 
@@ -19,6 +20,7 @@ class ClothSim extends Sprite {
     var handle2 : Sprite;
     
     var overlay : Sprite;
+    var timeDisplay: TextField;
 
     static function main()
     {
@@ -28,16 +30,17 @@ class ClothSim extends Sprite {
     public function new()
     {
         super();
+
+		timeDisplay = new TextField();
+		addChild(timeDisplay);
+        
         flash.Lib.current.addChild(this);
         particles = new Array();
         s = new ParticleSystem(new Vector3D(0, 3.2, 0), .06);
         s.setIntegrator(ParticleSystem.RUNGE_KUTTA);
-        var sx : Int;
-        sx = 150;
-        var sy : Int;
-        sy = 40;
-        var sp : Int;
-        sp = 25;
+        var sx = 150;
+        var sy = 40;
+        var sp = 25;
         
         gridSize = 8;
         
@@ -149,6 +152,8 @@ class ClothSim extends Sprite {
     
     function onFrame(_):Void
     {
+    		var t = haxe.Timer.stamp();
+    		
         if(handle1.x > stage.stageWidth) handle1.x = stage.stageWidth;
         else if(handle1.x < 0) handle1.x = 0;
         if(handle1.y > stage.stageHeight) handle1.y = stage.stageHeight;
@@ -185,6 +190,8 @@ class ClothSim extends Sprite {
                 graphics.lineTo(particles[i+1][j].position.x, particles[i+1][j].position.y);
             }
         }
+
+        timeDisplay.text = Math.round((haxe.Timer.stamp() - t) * 1000) + "ms";
     }
 
 }

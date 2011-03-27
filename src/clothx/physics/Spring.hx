@@ -114,21 +114,15 @@ class Spring {
 	{
 		if(on && (a.isFree() || b.isFree()))
 		{
-			var a2bX : Float;
-			a2bX = a.position.x - b.position.x;
-			var a2bY : Float;
-			a2bY = a.position.y - b.position.y;
-			var a2bZ : Float;
+			var a2bX = a.position.x - b.position.x;
+			var a2bY = a.position.y - b.position.y;
 			var a2bZ = a.position.z - b.position.z;
 			
-			var a2bDistance : Float;
-			a2bDistance = Math.sqrt(a2bX*a2bX + a2bY*a2bY + a2bZ*a2bZ);
+			var a2bDistance = Math.sqrt(a2bX*a2bX + a2bY*a2bY + a2bZ*a2bZ);
 			
 			if(a2bDistance == 0)
 			{
-				a2bX = 0;
-				a2bY = 0;
-				a2bZ = 0;
+				a2bX = a2bY = a2bZ = 0;
 			} 
 			else
 			{
@@ -137,20 +131,14 @@ class Spring {
 				a2bZ /= a2bDistance;
 			}
 			
-			var springForce : Float;
-			springForce = -(a2bDistance - restLength) * springConstant;
+			var springForce = -(a2bDistance - restLength) * springConstant;
 			
-			var Va2bX : Float;
-			Va2bX = a.velocity.x - b.velocity.x;
-			var Va2bY : Float;
-			Va2bY = a.velocity.y - b.velocity.y;
-			var Va2bZ : Float;
-			Va2bZ = a.velocity.z - b.velocity.z;
+			var Va2bX = a.velocity.x - b.velocity.x;
+			var Va2bY = a.velocity.y - b.velocity.y;
+			var Va2bZ = a.velocity.z - b.velocity.z;
 			
-			var dampingForce : Float;
-			dampingForce = -damping * (a2bX*Va2bX + a2bY*Va2bY + a2bZ*Va2bZ);
-			var r : Float;
-			r = springForce + dampingForce;
+			var dampingForce = -damping * (a2bX*Va2bX + a2bY*Va2bY + a2bZ*Va2bZ);
+			var r = springForce + dampingForce;
 			
 			a2bX *= r;
 			a2bY *= r;

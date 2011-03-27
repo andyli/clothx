@@ -103,25 +103,19 @@ class Attraction implements Force {
 	{
 		if(on && (a.isFree() || b.isFree()))
 		{
-			var a2bX : Float;
-			a2bX = a.position.x - b.position.x;
-			var a2bY : Float;
-			a2bY = a.position.y - b.position.y;
-			var a2bZ : Float;
-			a2bZ = a.position.z - b.position.z;
+			var a2bX = a.position.x - b.position.x;
+			var a2bY = a.position.y - b.position.y;
+			var a2bZ = a.position.z - b.position.z;
 			
-			var a2bDistanceSquared : Float;
-			a2bDistanceSquared = a2bX*a2bX + a2bY*a2bY + a2bZ*a2bZ;
+			var a2bDistanceSquared = a2bX*a2bX + a2bY*a2bY + a2bZ*a2bZ;
 			
 			if(a2bDistanceSquared < minDistanceSquared)
 				a2bDistanceSquared = minDistanceSquared;
 			
-			var force : Float;
-			force = strength * a.mass * b.mass / a2bDistanceSquared;
+			var force = strength * a.mass * b.mass / a2bDistanceSquared;
 			
-			var length : Float;
-			length = Math.sqrt(a2bDistanceSquared);
-			
+			var length = Math.sqrt(a2bDistanceSquared);
+
 			a2bX /= length;
 			a2bY /= length;
 			a2bZ /= length;

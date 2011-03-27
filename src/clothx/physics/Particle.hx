@@ -44,7 +44,7 @@ class Particle {
 	public function makeFixed():Void
 	{
 		fixed = true;
-		velocity.x = 0; velocity.y = 0; velocity.z = 0;
+		velocity.x = velocity.y = velocity.z = 0;
 	}
 	
 	public function makeFree():Void
@@ -71,9 +71,9 @@ class Particle {
 	{
 		age = 0;
 		dead = false;
-		position.x = 0; position.y = 0; position.z = 0;
-		velocity.x = 0; velocity.y = 0; velocity.z = 0;
-		force.x = 0; force.y = 0; force.z = 0;
+		position.x = position.y = position.z = 0;
+		velocity.x = velocity.y = velocity.z = 0;
+		force.x = force.y = force.z = 0;
 		mass = 1;
 	}
 	

@@ -20,8 +20,8 @@ import flash.geom.Vector3D;
 
 class ParticleSystem {
 
-	public static var RUNGE_KUTTA : Int = 0;
-	public static var MODIFIED_EULER :Int = 1;
+	inline public static var RUNGE_KUTTA : Int = 0;
+	inline public static var MODIFIED_EULER :Int = 1;
 	
 	var integrator : Integrator;
 	
@@ -77,36 +77,27 @@ class ParticleSystem {
 	
 	public function makeParticle(mass : Float = 1, ?position : Vector3D):Particle
 	{
-		var p:Particle;
-		p = new Particle(mass, position);
+		var p = new Particle(mass, position);
 		particles.push(p);
 		return p;
 	}
 	
 	public function makeSpring(a : Particle, b : Particle, springConstant : Float, damping : Float, restLength : Float):Spring
 	{
-		var s : Spring;
-		s = new Spring(a, b, springConstant, damping, restLength);
+		var s = new Spring(a, b, springConstant, damping, restLength);
 		springs.push(s);
 		return s;
 	}
 	
 	public function makeAttraction(a : Particle, b : Particle, strength : Float, minDistance : Float):Attraction
 	{
-		var m : Attraction;
-		m = new Attraction(a, b, strength, minDistance);
+		var m = new Attraction(a, b, strength, minDistance);
 		attractions.push(m);
 		return m;
 	}
 	
 	public function clear():Void
-	{
-		var i : Int;
-		
-		for(i in 0...particles.length) particles[i] = null;
-		for(i in 0...springs.length) springs[i] = null;
-		for(i in 0...attractions.length) attractions[i] = null;
-		
+	{	
 		particles = new Array<Particle>();
 		springs = new Array<Spring>();
 		attractions = new Array<Attraction>();
@@ -116,35 +107,26 @@ class ParticleSystem {
 	{
 		if(gravity.x != 0 || gravity.y != 0 || gravity.x != 0) // not gravity.z ?
 		{
-			for(i in 0...particles.length)
-				particles[i].force = particles[i].force.add(gravity);
+			for(p in particles)
+				p.force = p.force.add(gravity);
 		}
 		
-		for(i in 0...particles.length)
+		for(p in particles)
 		{
-			var p : Particle;
-			p = particles[i];
-			var vdrag : Vector3D;
-			vdrag = p.velocity.clone();
+			var vdrag = p.velocity.clone();
 			vdrag.scaleBy(-drag);
 			p.force = p.force.add(vdrag);
 		}
 		
-		for(i in 0...springs.length) springs[i].apply();
-		for(i in 0...attractions.length) attractions[i].apply();
-		for(i in 0...custom.length) custom[i].apply();
+		for(s in springs) s.apply();
+		for(a in attractions) a.apply();
+		for(c in custom) c.apply();
 	}
 	
 	public function clearForces():Void
 	{
-		for( i in 0...particles.length)
-		{
-			var p : Particle;
-			p = particles[i];
-			p.force.x = 0;
-			p.force.y = 0;
-			p.force.z = 0;
-		}
+		for( p in particles)
+			p.force.x = p.force.y = p.force.z = 0;
 	}
 	
 	public function numberOfParticles():Int
@@ -194,124 +176,41 @@ class ParticleSystem {
 	
 	public function removeCustomForce(i : Int):Void
 	{
-		custom[i] = null;
 		custom.splice(i, 1);
 	}
 	
 	public function removeCustomForceByReference(f : Force):Bool
 	{
-		var n : Int;
-		n = -1;
-		
-		for(i in 0...custom.length)
-		{
-			if(custom[i]==f)
-			{
-				n = i;
-				break;
-			}
-		}
-		if(n != -1)
-		{
-			custom[n] = null;
-			custom.splice(n, 1);
-			return true;
-		} 
-		else
-		{
-			return false;
-		}
+		return custom.remove(f);
 	}
 	
 	public function removeSpring(i : Int):Void
 	{
-	   springs[i] = null;
 	   springs.splice(i, 1);
 	}
 	
 	public function removeSpringByReference(s : Spring):Bool
 	{
-		var n : Int;
-		n = -1;
-		
-		for(i in 0...springs.length)
-		{
-			if(springs[i] == s)
-			{
-				n = i;
-				break;
-			}
-		}
-		if(n != -1)
-		{
-			springs[n] = null;
-			springs.splice(n, 1);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return springs.remove(s);
 	}
 	
 	public function removeAttraction(i : Int):Void
 	{
-		attractions[i] = null;
 		attractions.splice(i, 1);
 	}
 	
 	public function removeAttractionByReference(s : Attraction):Bool
 	{
-		var n : Int;
-		n = -1;
-		for(i in 0...attractions.length)
-		{
-			if(attractions[i] == s)
-			{
-				n = i;
-				break;
-			}
-		}
-		if(n != -1)
-		{
-			attractions[n] = null;
-			attractions.splice(n, 1);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return attractions.remove(s);
 	}
 	
 	public function removeParticle(i : Int):Void
 	{
-		particles[i] = null;
 		particles.splice(i, 1);
 	}
 	
 	public function removeParticleByReference(p : Particle):Bool
 	{
-		var n : Int;
-		n = -1;
-		
-		for(i in 0...particles.length)
-		{
-			if(particles[i] == p)
-			{
-				n = i;
-				break;
-			}
-		}
-		if(n != -1)
-		{
-			particles[n] = null;
-			particles.splice(n, 1);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return particles.remove(p);
 	}
 }

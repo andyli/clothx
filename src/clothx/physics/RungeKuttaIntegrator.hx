@@ -65,7 +65,6 @@ class RungeKuttaIntegrator implements Integrator {
 	
 	
 	var particles : Array<Particle>;
-    var p : Particle;
     var originalPosition : Vector3D;
     var originalVelocity : Vector3D;
     
@@ -81,7 +80,8 @@ class RungeKuttaIntegrator implements Integrator {
 	
 	public function step(t : Float):Void
 	{
-	   
+	    var p : Particle;
+	    
 		particles = s.particles;
 		
 		// k1: save original, apply forces, result is k1
@@ -95,9 +95,7 @@ class RungeKuttaIntegrator implements Integrator {
 				originalPositions[i] = p.position.clone();
 				originalVelocities[i] = p.velocity.clone();
 			}
-			p.force.x = 0;
-			p.force.y = 0;
-			p.force.z = 0;
+			p.force.x = p.force.y = 	p.force.z = 0;
 			// clear;
 		}
 		
@@ -113,9 +111,7 @@ class RungeKuttaIntegrator implements Integrator {
 				k1Velocities[i] = p.velocity.clone();
 			}
 			
-			p.force.x = 0;
-			p.force.y = 0;
-			p.force.z = 0;
+			p.force.x = p.force.y = 	p.force.z = 0;
 		}
         
         
@@ -157,9 +153,7 @@ class RungeKuttaIntegrator implements Integrator {
 				k2Velocities[i] = p.velocity.clone();
 			}
 			
-			p.force.x = 0;
-			p.force.y = 0;
-			p.force.z = 0;
+			p.force.x = p.force.y = 	p.force.z = 0;
 		}
 		
 		// k3 : use k2, apply forces, result is k3
@@ -198,9 +192,7 @@ class RungeKuttaIntegrator implements Integrator {
 				k3Velocities[i] = p.velocity.clone();
 			}
 			
-			p.force.x = 0;
-			p.force.y = 0;
-			p.force.z = 0;
+			p.force.x = p.force.y = 	p.force.z = 0;
 		}
 		
 		// k4 : use k3, apply forces, result is k4
@@ -239,9 +231,7 @@ class RungeKuttaIntegrator implements Integrator {
 				k4Velocities[i] = p.velocity.clone();
 			}
 			
-			p.force.x = 0;
-			p.force.y = 0;
-			p.force.z = 0;
+			p.force.x = p.force.y = 	p.force.z = 0;
 		}
 		
 		// update position and velocity

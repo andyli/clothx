@@ -3,6 +3,7 @@ package ;
 import flash.Lib;
 import flash.display.Sprite;
 import flash.geom.Vector3D;
+import flash.text.TextField;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
@@ -21,7 +22,8 @@ class Grid extends Sprite {
     var gridSize : Int;
     var particles : Array<Particle>;
 
-    var overlay : Sprite;    
+    var overlay : Sprite;   
+    var timeDisplay: TextField; 
 
     static function main():Void
     {
@@ -31,6 +33,10 @@ class Grid extends Sprite {
     public function new():Void
     {
         super();
+
+		timeDisplay = new TextField();
+		addChild(timeDisplay);
+		
         flash.Lib.current.addChild(this);
         gridSize = 12;
         p_fixed = new Array();
@@ -38,12 +44,9 @@ class Grid extends Sprite {
         s = new ParticleSystem(new Vector3D(0, 0, 0),.2);
         s.setIntegrator(ParticleSystem.MODIFIED_EULER);
         
-        var sx : Int;
-        sx = 110;
-        var sy : Int;
-        sy = 50;
-        var sp : Int;
-        sp = 25;
+        var sx = 110;
+        var sy = 50;
+        var sp = 25;
         
         attractor = s.makeParticle(1, new Vector3D(300,300,0));
         attractor.makeFixed();
@@ -93,6 +96,8 @@ class Grid extends Sprite {
     
     function onFrame(_):Void
     {
+    		var t = haxe.Timer.stamp();
+    		
         this.graphics.clear();
         s.tick(1);
         
@@ -140,7 +145,8 @@ class Grid extends Sprite {
                 count++;
             }
         }
-        
+
+        timeDisplay.text = Math.round((haxe.Timer.stamp() - t) * 1000) + "ms";
     }
 
 }
